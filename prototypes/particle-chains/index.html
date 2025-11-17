@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Particle Emitter Chaining Prototype (PixiJS)</title>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css"
+    integrity="sha512-Gf4riL77wwGpXz3H12vwDnJL4Iw9V0STFtW5wvKj6PXMdo8tzDyXOUYTJ3WTwGDwoe4Tb/lvvoWQobIPIXyF1A=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/theme/material-darker.min.css"
+    integrity="sha512-g2xMxyA8jK76wM5brdY0WTJpd8N23b7HnVok8zXb9GcejYgwiuv7PzDhgBAo4ROQzfy2x+HzZn+2T7eINMOshw=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/hint/show-hint.min.css"
+    integrity="sha512-z1D+RO6/qj1sSuC+tJzWYctJqLkBzn5E5Tw88A4myzwKZSqsYmxfZTBqqyfbFjIEc/GKXG1OyOGdvFKwqMSH+Q=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <header>
+    <h1>Particle Emitter Chaining Prototype</h1>
+    <p>PixiJS-powered seed for chaining triggers between particle emitters.</p>
+  </header>
+
+  <aside class="panel">
+    <p>
+      This prototype swaps the 2D canvas renderer for <strong>PixiJS</strong> while keeping the lightweight chaining mechanic.
+      Each emitter registers "chain links" that run when its particles expire, spawning follow-up emitters or short bursts.
+    </p>
+    <p>
+      <strong>Run locally:</strong> serve the repo (e.g. <code>cd prototypes/particle-chains &amp;&amp; python -m http.server 8000</code>), then open
+      <code>http://localhost:8000/prototypes/particle-chains/index.html</code> in your browser.
+    </p>
+    <ul>
+      <li><code>chain: [burst]</code> &mdash; one-shot burst from the particle's last position.</li>
+      <li><code>chain: [followEmitter]</code> &mdash; spawns a temporary emitter that keeps emitting while it lives.</li>
+      <li>Probabilities allow partial chaining so the scene is not uniform.</li>
+    </ul>
+
+    <div class="legend">
+      <span><span class="swatch" style="background:#7dd3fc"></span> Primary fountain emitter</span>
+      <span><span class="swatch" style="background:#f472b6"></span> Burst links on particle end-of-life</span>
+      <span><span class="swatch" style="background:#fbbf24"></span> Temporary follow-up emitters</span>
+    </div>
+  </aside>
+
+  <section class="panel canvas-wrapper">
+    <div id="stage"></div>
+  </section>
+
+  <section class="panel editor-panel">
+    <div>
+      <p style="margin-bottom: 0.35rem;">Edit emitter and chain JSON. Press <code>Ctrl/Cmd + Enter</code> to apply changes, or <code>Ctrl/Cmd + Space</code> for completions.</p>
+      <textarea id="config-editor" aria-label="Emitter configuration"></textarea>
+    </div>
+    <div class="editor-actions">
+      <button id="apply-config">Apply config</button>
+      <button id="reset-config" class="secondary">Reset to defaults</button>
+      <span class="status" id="status"></span>
+    </div>
+  </section>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/8.2.1/pixi.min.js" integrity="sha512-uCjNGwPb1BV0JoVpFBSq7XkRmFqtfiAmrz4hYtYalKgpMbSPrr5TcmMtC2tL8K5xQMV0pRul9h7ADs5JQNh4pw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js" integrity="sha512-VMtUsXnSiuJgNzhjFh9RMncGk1iDQjGZhbe+4JAp7KieVfODVzvTKCgJJyUteTccyg9qSjCJkQuR+va0CQYtIQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/javascript/javascript.min.js" integrity="sha512-iTYPDLnGvEKSfiW7LoGq/9idI3iOKT4qGZfJHw7yiCnTYVo7yQNI7HCVByTN5Df6wrRNCpz6XOXsTmiEMO/7DQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/hint/show-hint.min.js" integrity="sha512-0J/mugwHIz52nEQHRTXF+6A+tQmQ02Ws+04Uv8xpw8V5JPyMYPvoEUPpN0uOWXCAeXt8V+78CKjPgAZ6lpFIcw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script type="module" src="./scripts/main.js"></script>
+</body>
+</html>
